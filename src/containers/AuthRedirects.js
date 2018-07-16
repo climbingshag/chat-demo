@@ -1,7 +1,6 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
 import { withIsLoggedIn } from "../dataBindings/auth";
-import { isEmpty } from "react-redux-firebase";
 
 export const Authorized = withIsLoggedIn(props => {
   const noop = <div>{props.children}</div>;

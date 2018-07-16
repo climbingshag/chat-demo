@@ -16,7 +16,7 @@ const firebaseConfig = {
 };
 
 const rrfConfig = {
-  userProfile: "users",
+  userProfile: "userProfiles",
   // useFirestoreForProfile: true // Firestore for Profile instead of Realtime DB
 };
 
@@ -33,7 +33,7 @@ const rootReducer = combineReducers({
   // firestore: firestoreReducer // <- needed if using firestore
 });
 
-const initialState = {};
+const initialState = {hello:"world"};
 const store = createStoreWithFirebase(rootReducer, initialState);
 
 function AppStore(WrappedComponent) {

@@ -4,6 +4,7 @@ import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import { withSignupHandler } from "../dataBindings/auth";
+import pick from "lodash/pick";
 
 const styles = {
   form: {
@@ -12,14 +13,13 @@ const styles = {
     flexDirection: "column"
   },
   textInput: {},
-  submitButton: {},
   root: {
     margin: "auto",
     width: 300
   },
   title: {
     fontSize: "2em",
-    paddingTop: 30,
+    paddingTop: 10,
     textAlign: "center"
   }
 };
@@ -27,13 +27,15 @@ const styles = {
 class SignupForm extends Component {
   constructor(props) {
     super(props);
-    this.state = { email: "", password: "" };
+    this.state = { email: "", password: "", firstName: "", lastName: "", avatarUrl: "" };
   }
 
   handleSubmit = e => {
     e.preventDefault();
-    const { email, password } = this.state;
-    this.props.handelSignup({ email, password });
+    const creds = pick(this.state,["email", "password" ]);
+    const profile = pick(this.state,["email", "firstName", "lastName", "avatarUrl" ]);
+    profile.avatarUrl = profile.avatarUrl || "https://cdn1.thr.com/sites/default/files/imagecache/portrait_300x450/2011/06/nicolas_cage_2011_a_p.jpg";
+    this.props.handleSignup(creds, profile);
   };
 
   handleChange = ({ target: { id, value } }) =>
@@ -63,6 +65,30 @@ class SignupForm extends Component {
             className={classes.textInput}
           />
           <TextField
+            onChange={this.handleChange}
+            required
+            id="firstName"
+            label="First Name"
+            margin="normal"
+            className={classes.textInput}
+          />
+          <TextField
+            onChange={this.handleChange}
+            required
+            id="lastName"
+            label="Last Name"
+            margin="normal"
+            className={classes.textInput}
+          />
+          <TextField
+            onChange={this.handleChange}
+            id="avatarUrl"
+            label="Avatar URL (optional)"
+            margin="normal"
+            helperText="e.g., http://cdn.avatars.com/nick_cage.jpg"
+            className={classes.textInput}
+          />
+          <TextField
             type="password"
             onChange={this.handleChange}
             required
@@ -74,8 +100,8 @@ class SignupForm extends Component {
           <Button
             type="submit"
             size="large"
-            variant="outlined"
-            className={classes.submitButton}
+            color="secondary"
+            variant="raised"
           >
             Submit
           </Button>

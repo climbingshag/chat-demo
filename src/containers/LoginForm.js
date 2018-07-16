@@ -19,7 +19,7 @@ const styles = {
   },
   title: {
     fontSize: "2em",
-    paddingTop: 30,
+    paddingTop: 10,
     textAlign: "center"
   }
 };
@@ -74,7 +74,8 @@ class LoginForm extends Component {
           <Button
             type="submit"
             size="large"
-            variant="outlined"
+            color="secondary"
+            variant="raised"
             className={classes.submitButton}
           >
             Submit

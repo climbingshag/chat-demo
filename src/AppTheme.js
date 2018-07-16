@@ -1,10 +1,14 @@
 import React from "react";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-
+import amber from "@material-ui/core/colors/amber";
+import blue from "@material-ui/core/colors/blue";
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: "#01a8a5"
+      main: "#6897bb"
+    },
+    secondary: {
+      main: "#f37054"
     }
   }
 });
