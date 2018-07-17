@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 import TopNavBar from "../containers/TopNavBar";
 import { LoginButton, SignupButton } from "../containers/NavButtons";
 import styled from "styled-components";
-import { Authorized, NotAuthorized } from "../containers/AuthRedirects";
+import { NotAuthorized } from "../containers/AuthRedirects";
 
 const HomeContent = styled.div`
   padding-top: 2em;

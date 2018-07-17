@@ -1,10 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
+import ProfileBar from "./ProfileBar";
 
 const Contact = props => (
-  <li onClick={() => props.handleSelectContact(props.contact.uid)}>
-    {props.contact.email}
-  </li>
+  <div onClick={() => props.handleSelectContact(props.contact)}>
+    <ProfileBar
+      user={props.contact}
+    />
+  </div>
 );
 
 const ContactsList = props =>
@@ -24,7 +27,7 @@ const ContactsList = props =>
 
 ContactsList.propTypes = {
   contacts: PropTypes.array,
-  // handleSelectContact: PropTypes.func.isRequired
+  handleSelectContact: PropTypes.func.isRequired
 };
 
 export default ContactsList;

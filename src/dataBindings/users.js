@@ -1,7 +1,6 @@
 import { withFirebase, isEmpty } from "react-redux-firebase";
 import { connect } from "react-redux";
-import { withHandlers, withProps, pure, compose } from "recompose";
-import withErrorToast from "../decorators/withErrorToast";
+import { withHandlers, compose } from "recompose";
 import emailToId from "../helpers/emailToId";
 
 export const withCurrentUser = compose(
@@ -19,16 +18,19 @@ export const withCurrentUser = compose(
 export const withSearchForUserByEmailHandler = compose(
   withFirebase,
   withHandlers({
-    handleSearchUsersByEmail: ({ firebase, userId }) => email =>
+    handleSearchForUserByEmail: ({ firebase, userId }) => email =>
       firebase
         .database()
         .ref("userProfiles")
         .orderByChild("indexedEmail")
         .equalTo(emailToId(email))
         .once("value")
-        .then(userProfileSnap => ({
-          uid: userProfileSnap.key,
-          profile: userProfileSnap.val()
-        }))
+        .then(userProfileSnap => {
+          const value = userProfileSnap.val();
+          if (!value) return { profile: null, uid: null };
+          const uid = Object.keys(value)[0];
+          const profile = value[uid];
+          return { profile, uid };
+        })
   })
 );

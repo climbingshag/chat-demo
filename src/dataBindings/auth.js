@@ -1,6 +1,6 @@
 import { withFirebase, isEmpty } from "react-redux-firebase";
 import { connect } from "react-redux";
-import { withHandlers, withProps, pure, compose } from "recompose";
+import { withHandlers, pure, compose } from "recompose";
 import withErrorToast from "../decorators/withErrorToast";
 import emailToId from "../helpers/emailToId";
 

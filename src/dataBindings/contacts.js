@@ -1,40 +1,67 @@
 import { firebaseConnect, withFirebase, populate } from "react-redux-firebase";
 import { connect } from "react-redux";
-import { withHandlers, pure, compose } from "recompose";
+import { withHandlers, compose } from "recompose";
 import { withCurrentUser } from "./users";
-import get from "lodash/get";
-import firebase from "firebase";
+import values from "lodash/values";
+
+const populates = [
+  {
+    child: "uid", // parameter to populate
+    root: "userProfiles", // collection from which to gather children
+    childAlias: "profile" // place result somewhere else on object
+  }
+];
 
 export const withCurrentUserContacts = compose(
   withCurrentUser,
+  // add firbase listeners
   firebaseConnect(({ currentUser }) => {
     return [
       {
         path: `userContacts/${currentUser.uid}/contacts`,
-        populate: [{ child: "profile", root: "userProfiles" }]
+        populates
       }
     ];
   }),
   // Map state to props
-  connect(({ firebase: { data } }, { currentUser }) => {
+  connect(({ firebase }, { currentUser }) => {
     return {
-      contacts: populate(firebase, "contacts", [
-        { child: "profile", root: "userProfiles" }
-      ])
+      contacts: values(
+        populate(
+          firebase,
+          `userContacts/${currentUser.uid}/contacts`,
+          populates
+        )
+      )
     };
   })
 );
 
 export const withAddContactHandler = compose(
-  // Get project path from firebase based on params prop (route params from react-router)
   withCurrentUser,
   withFirebase,
   withHandlers({
-    handleAddContact: ({ firebase, currentUser }) => contactId => {
+    handleAddContact: ({ firebase, currentUser }) => contact => {
+      // this is kinda dirty, but we add contact to both users, and create a new message thread
       firebase
         .database()
         .ref(`userContacts/${currentUser.uid}/contacts`)
-        .push({ uid: contactId, profile: contactId });
+        .push({ uid: contact.uid })
+        .then(() =>
+          firebase
+            .database()
+            .ref(`userContacts/${contact.uid}/contacts`)
+            .push({ uid: currentUser.uid })
+        )
+        .then(() => {
+          const users = {};
+          users[currentUser.uid] = true;
+          users[contact.uid] = true;
+          return firebase
+            .database()
+            .ref(`messageThreads`)
+            .push({ users, messages: {} });
+        });
     }
   })
 );

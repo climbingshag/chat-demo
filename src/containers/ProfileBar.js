@@ -10,7 +10,7 @@ const styles = {
     margin: 10
   },
   row: {
-    display: "flex",
+    display: "flex"
     // justifyContent: "left"
   },
   email: {
@@ -26,7 +26,13 @@ const ProfileBar = props => {
         src={props.user.profile.avatarUrl}
         className={props.classes.avatar}
       />
-      <Typography className={props.classes.email} noWrap align="left" color="textSecondary" variant="headline">
+      <Typography
+        className={props.classes.email}
+        noWrap
+        align="left"
+        color="textSecondary"
+        variant="headline"
+      >
         {props.user.profile.email}
       </Typography>
     </div>

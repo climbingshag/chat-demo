@@ -1,15 +1,22 @@
 import React from "react";
 import PropTypes from "prop-types";
+import Message from "./Message";
 
-const MessageThread = ({ messages, authorName, authorAvatar }) => (
-  <div></div>
-);
-
-MessageThread.propTypes = {
-  avatarLink: PropTypes.string.isRequired,
-  authorName: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired,
-  timeStamp: PropTypes.date.isRequired
+const MessageThread = props => {
+  return !props.messageThread ? null : (
+    <div>
+      <ul>
+        {props.messageThread.thread.messages.map(message => (
+          <Message message={message.message} key={message.uid} />
+        ))}
+      </ul>
+    </div>
+  );
 };
 
-export default Message;
+MessageThread.propTypes = {
+  messageThread: PropTypes.object.isRequired,
+  currentUser: PropTypes.object.isRequired
+};
+
+export default MessageThread;

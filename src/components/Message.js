@@ -1,13 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
+import Moment from "react-moment"
 
-const Message = ({ authorName, timestamp, text }) => <div>{text}</div>;
+const Message = props => (
+  <div>
+    {props.message.author.profile.email} on <Moment date={props.message.timestamp} format="M/DD H:mm"/> 
+      <div>
+        {props.message.text}
+      </div>
+  </div>
+);
 
 Message.propTypes = {
-  avatarLink: PropTypes.string.isRequired,
-  authorName: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired,
-  timeStamp: PropTypes.date.isRequired
+  message: PropTypes.object.isRequired
 };
 
 export default Message;

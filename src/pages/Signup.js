@@ -2,7 +2,7 @@ import React from "react";
 import TopNavBar from "../containers/TopNavBar";
 import { LoginButton, SignupButton } from "../containers/NavButtons";
 import SignupForm from "../containers/SignupForm";
-import { Authorized, NotAuthorized } from "../containers/AuthRedirects";
+import { NotAuthorized } from "../containers/AuthRedirects";
 
 const Signup = props => (
   <div>
